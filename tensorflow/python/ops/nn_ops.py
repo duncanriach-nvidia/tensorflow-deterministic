@@ -140,7 +140,6 @@ from __future__ import print_function
 import functools
 import numbers
 import os
-import re
 
 import numpy as np
 
@@ -155,7 +154,6 @@ from tensorflow.python.framework import tensor_shape
 from tensorflow.python.framework import tensor_util
 from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import check_ops
-from tensorflow.python.ops import custom_gradient
 from tensorflow.python.ops import gen_math_ops
 from tensorflow.python.ops import gen_nn_ops
 from tensorflow.python.ops import math_ops
@@ -4186,8 +4184,8 @@ def _sparse_softmax_cross_entropy_with_rank_2_logits(logits, labels, name):
     class_count = math_ops.cast(array_ops.shape(logits)[-1], labels.dtype)
     cost = array_ops.where(
         math_ops.logical_or(
-          math_ops.less(labels, 0),
-          math_ops.greater_equal(labels, class_count)),
+            math_ops.less(labels, 0),
+            math_ops.greater_equal(labels, class_count)),
         cost_all_nans, cost)
   else:
     # The second output tensor contains the gradients. We use it in
